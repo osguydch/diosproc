@@ -7,6 +7,7 @@ int Add(int a, int b){
 */
 import "C"
 
+
 import (
     "context"
     "fmt"
@@ -25,70 +26,67 @@ type DeviceServerImpl struct {
 // This will take OpenRequest message and return OpenReply
 func (g *DeviceServerImpl) Open(ctx context.Context, request *gen.OpenRequest) (*gen.OpenReply, error) {
     return &gen.OpenReply{
-        Message: fmt.Sprintf("hello %s",request.Name),
+        Message: fmt.Sprintf("hello %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Close( ctx context.Context, request *gen.OpenRequest) (*gen.CloseReply, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("hello %s",request.Name),
+func (g *DeviceServerImpl) Close( ctx context.Context, request *gen.OpenRequest) (*gen.CloseReply, error) {
+    return &gen.CloseReply{
+        Message: fmt.Sprintf("hello %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Get( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("Get %s",request.Name),
+func (g *DeviceServerImpl) Get( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error) {
+    return &gen.DoResponse{
+        DeviceUri: fmt.Sprintf("Get %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Update( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("Update %s",request.Name),
+func (g *DeviceServerImpl) Update( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error) {
+    return &gen.DoResponse{
+        DeviceUri: fmt.Sprintf("Update %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Add( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("Add %s",request.Name),
+func (g *DeviceServerImpl) Add( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error) {
+    return &gen.DoResponse{
+        DeviceUri: fmt.Sprintf("Add %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Del( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("Del %s",request.Name),
+func (g *DeviceServerImpl) Del( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error) {
+    return &gen.DoResponse{
+        DeviceUri: fmt.Sprintf("Del %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Action( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("Action %s",request.Name),
+func (g *DeviceServerImpl) Action( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error) {
+    return &gen.DoResponse{
+        DeviceUri: fmt.Sprintf("Action %s",request.DeviceUri),
     },nil
 }
 
-func (g *DeviceServerImpl) Message( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error)
-{
-    return &gen.OpenReply{
-        Message: fmt.Sprintf("Message %s",request.Name),
+func (g *DeviceServerImpl) Message( ctx context.Context, request *gen.DoRequest) (*gen.DoResponse, error) {
+    return &gen.DoResponse{
+        DeviceUri: fmt.Sprintf("Message %s",request.DeviceUri),
     },nil
 }
 
 
 
 func main() {
-    // create new gRPC server
-    fmt.Println(C.add(C.int(20), C.int(15)));
 
+    a := C.int(10)
+	b := C.int(20)
+	c := C.Add(a, b)
+	fmt.Println(c)
+    
+    // create new gRPC server
     server := grpc.NewServer()
     // register the GreeterServerImpl on the gRPC server
     gen.RegisterDeviceServer(server, &DeviceServerImpl{})
     // start listening on port :8080 for a tcp connection
-    if l, err := net.Listen("tcp", ":8080"); err != nil {
+    if l, err := net.Listen("tcp", ":9980"); err != nil {
         log.Fatal("error in listening on port :8080", err)
     } else {
         // the gRPC server
