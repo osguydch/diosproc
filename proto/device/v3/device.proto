@@ -1,0 +1,175 @@
+// define syntax used in proto file
+syntax = "proto3";
+// options used by gRPC golang plugin(not related to gRPC gateway)
+//option go_package = "github.com/osguydch/diosproc";
+
+package Device.V3;
+
+// well know type by google, gRPC gateway uses HTTP annotation.
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+//import "third_party/googleapis/google/api/annotations.proto";
+
+// These annotations are used when generating the OpenAPI file.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {version: "3.0"};
+  external_docs: {
+    url: "https://github.com/osguydch/diosproc";
+    description: "gRPC-gateway boilerplate repository";
+  }
+  schemes: HTTPS;
+};
+
+// simple message
+message OpenRequest {
+  string deviceUri = 1;
+  string deviceGroup = 2;
+}
+
+message OpenReply {
+  string message = 1;
+  string retCode = 2;
+  string retContext = 3;
+}
+
+message CloseReply {
+  string message = 1;
+  string retCode = 2;
+}
+
+message DoRequest{
+  string deviceUri = 1;
+  string typeName = 2;
+  string reqName = 3;
+  string reqParam = 4;
+  string reqTransaction = 5;
+  string reqClientID = 6;
+  string reqTimeStamp = 7;
+}
+
+message DoResponse{
+  string deviceUri = 1;
+  string typeName = 2;
+  string reqName = 3;
+  string RespParam = 4;
+  string reqTransaction = 5;
+  string reqClientID = 6;
+  string RespTimeStamp = 7;
+  string retContext = 8;
+}
+
+// a gRPC service
+service Device {
+ // Open is a rpc call and a option is defined for it
+  rpc Open (OpenRequest) returns (OpenReply) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Open" call this rpc method over this service
+      post: "/v1/Device/Open/{deviceUri}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Open a Deivce"
+      description: "Open Device from Platform."
+      tags: "Device"
+    };
+  };
+  rpc Close (OpenRequest) returns (CloseReply) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      post: "/v1/Device/Close/{deviceUri}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Close Opened Deivce"
+      description: "Close Device from Platform."
+      tags: "Device"
+    };
+  };
+  rpc Get (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      get: "/v1/Device/{deviceUri}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Properties Value from Deivce"
+      description: "Get Properties Value from Deivce Platform."
+      tags: "Device"
+    };
+  };
+
+  rpc Update (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      put: "/v1/Device/{deviceUri}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Update(Set) Properties Value for Deivce"
+      description: "Update(Set) Properties Value for Deivce at Platform."
+      tags: "Device"
+    };
+  };
+  rpc Add (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      post: "/v1/Device/{deviceUri}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Add Properties Value for Deivce"
+      description: "Add Properties Value for Deivce at Platform if Property canbe added."
+      tags: "Device"
+    };
+  };
+  rpc Del (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      delete: "/v1/Device/{deviceUri}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Delete Properties Value for Deivce"
+      description: "Delete Properties Value for Deivce at Platform if Property canbe deleted."
+      tags: "Device"
+    };
+  };
+  rpc Action (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      post: "/v1/Device/Action/{deviceUri}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Execuate Action for Deivce"
+      description: "Execuate Action for Deivce at Platform ."
+      tags: "Device"
+    };
+  };
+  rpc Message (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      post: "/v1/Device/Message/{deviceUri}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Send Message to Deivce"
+      description: "Send Message to Deivce at Platform "
+      tags: "Device"
+    };
+  };
+}
