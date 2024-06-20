@@ -15,6 +15,7 @@ require (
 
 require (
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
+	github.com/johanbrandhorst/grpc-gateway-boilerplate v0.0.0-20230918205500-4bc150189608 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	golang.org/x/net v0.23.0 // indirect

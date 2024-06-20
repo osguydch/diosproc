@@ -25,7 +25,7 @@ import (
 func getOpenAPIHandler() http.Handler {
 	mime.AddExtensionType(".svg", "image/svg+xml")
 	// Use subdirectory in embedded files
-	subFS, err := fs.Sub(third_party.OpenAPI, "OpenAPI")
+	subFS, err := fs.Sub(third_party.OpenAPI, "openapi")
 	if err != nil {
 		panic("couldn't create sub filesystem: " + err.Error())
 	}
@@ -51,7 +51,7 @@ func Run(dialAddr string) error {
 	}
 
 	gwmux := runtime.NewServeMux()
-	err = usersv1.RegisterUserServiceHandler(context.Background(), gwmux, conn)
+	err = usersv1.RegisterDeviceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		return fmt.Errorf("failed to register gateway: %w", err)
 	}
