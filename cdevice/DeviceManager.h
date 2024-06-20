@@ -1,0 +1,9 @@
+int get_all_device();
+int open_device();
+int close_device();
+int device_get();
+int device_update();
+int device_add();
+int device_del();
+int device_action();
+int device_message();
