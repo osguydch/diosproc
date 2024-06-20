@@ -17,4 +17,4 @@ plugins:
     out: proto
     opt: paths=source_relative
   - plugin: buf.build/grpc-ecosystem/openapiv2:v2.15.2
-    out: third_party/OpenAPI
+    out: third_party/openapi
