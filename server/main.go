@@ -1,4 +1,4 @@
-package main
+package server
 
 /*
 int Add(int a, int b){
@@ -13,6 +13,9 @@ import (
     "fmt"
     "log"
     "net"
+    "sync"
+
+    "github.com/gofrs/uuid"
     // importing generated stubs
     gen "github.com/osguydch/diosproc/proto/device/V3"
     "google.golang.org/grpc"
@@ -20,6 +23,8 @@ import (
 // DeviceServerImpl will implement the service defined in protocol buffer definitions
 type DeviceServerImpl struct {
     gen.UnimplementedDeviceServer
+    mu  *sync.  RWMutex
+
 }
 
 // Open is the implementation of RPC call defined in protocol definitions.
