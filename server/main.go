@@ -17,7 +17,7 @@ import (
 
     "github.com/gofrs/uuid"
     // importing generated stubs
-    gen "github.com/osguydch/diosproc/proto/device/V3"
+    gen "github.com/osguydch/diosproc/proto/device/v3"
     "google.golang.org/grpc"
 )
 // DeviceServerImpl will implement the service defined in protocol buffer definitions
