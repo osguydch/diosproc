@@ -1,10 +1,7 @@
 package server
 
+
 /*
-#cgo CFLAGS: -I${SRCDIR}/cdevice
-#cgo LDFLAGS: -L${SRCDIR}/cdevice -llibDiosProc
-#include <stdio.h>
-#include "DeviceManager.h"
 
 
 int Add(int a, int b){
@@ -41,6 +38,7 @@ func New() *DeviceServerImpl {
 	c := C.Add(a, b)
 	fmt.Println(c)
 
+
 	return &DeviceServerImpl{
 		mu: &sync.RWMutex{},
 	}
@@ -49,7 +47,7 @@ func New() *DeviceServerImpl {
 // Open is the implementation of RPC call defined in protocol definitions.
 // This will take OpenRequest message and return OpenReply
 func (g *DeviceServerImpl) Open(ctx context.Context, request *gen.OpenRequest) (*gen.OpenReply, error) {
-	C.open_device()
+	//C.open_device()
     return &gen.OpenReply{
         Message: fmt.Sprintf("hello %s",request.DeviceUri),
     },nil

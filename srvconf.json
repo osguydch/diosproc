@@ -1,0 +1,27 @@
+{
+    "Application":"DIOS Proc",
+    "SupportSSL":"ON",
+    "CertFilePath":"",
+    "PortMap":[
+    {
+        "Type": "Detector",
+        "RPCPort":9010,
+        "HTTPPort":9011
+    },
+    {
+        "Type": "Generator",
+        "RPCPort":9030,
+        "HTTPPort":9031
+    },
+    {
+        "Type": "SynBox",
+        "RPCPort":9040,
+        "HTTPPort":9041
+    },
+    {
+        "Type": "Subsystem",
+        "RPCPort":9050,
+        "HTTPPort":9051
+    }
+    ]
+}

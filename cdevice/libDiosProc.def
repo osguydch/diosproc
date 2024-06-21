@@ -2,6 +2,7 @@ LIBRARY libDiosProc.dll
 
 EXPORTS
 
+add_driver
 get_all_device
 open_device
 close_device

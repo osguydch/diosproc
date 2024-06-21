@@ -25,7 +25,7 @@ import (
 func getOpenAPIHandler() http.Handler {
 	mime.AddExtensionType(".svg", "image/svg+xml")
 	// Use subdirectory in embedded files
-	subFS, err := fs.Sub(third_party.OpenAPI, "openapi")
+	subFS, err := fs.Sub(third_party.OpenAPI, "OpenAPI")
 	if err != nil {
 		panic("couldn't create sub filesystem: " + err.Error())
 	}
@@ -33,7 +33,7 @@ func getOpenAPIHandler() http.Handler {
 }
 
 // Run runs the gRPC-Gateway, dialling the provided address.
-func Run(dialAddr string) error {
+func Run(dialAddr string, httpPort string) error {
 	// Adds gRPC internal logs. This is quite verbose, so adjust as desired!
 	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
 	grpclog.SetLoggerV2(log)
@@ -58,11 +58,11 @@ func Run(dialAddr string) error {
 
 	oa := getOpenAPIHandler()
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "11000"
-	}
-	gatewayAddr := "0.0.0.0:" + port
+	// port := os.Getenv("PORT")
+	// if port == "" {
+	// 	port = "11000"
+	// }
+	gatewayAddr := "0.0.0.0:" + httpPort
 	gwServer := &http.Server{
 		Addr: gatewayAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
