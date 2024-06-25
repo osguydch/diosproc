@@ -12,3 +12,4 @@ device_add
 device_del
 device_action
 device_action
+free_struct

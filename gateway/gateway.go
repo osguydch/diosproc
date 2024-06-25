@@ -20,6 +20,7 @@ import (
 	"google.golang.org/grpc/grpclog"
 )
 
+
 // getOpenAPIHandler serves an OpenAPI UI.
 // Adapted from https://github.com/philips/grpc-gateway-example/blob/a269bcb5931ca92be0ceae6130ac27ae89582ecc/cmd/serve.go#L63
 func getOpenAPIHandler() http.Handler {

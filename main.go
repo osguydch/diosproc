@@ -6,16 +6,13 @@ package main
 /*
 #include <stdio.h>
 
+
+
 const char* add_driver(char* driverName);
-int get_all_device(int rpcPort, int httpPort);
-int open_device();
-int close_device();
-int device_get();
-int device_update();
-int device_add();
-int device_del();
-int device_action();
-int device_message();
+const char* get_all_device(int rpcPort, int httpPort);
+
+
+
 
 */
 import "C"
@@ -25,6 +22,7 @@ import (
 	"net"
 	"os"
 	"fmt"
+	"strings"
 	"encoding/json"
 	//"unsafe"
 
@@ -104,15 +102,16 @@ func main() {
 		}
 	}
 
-
-	C.get_all_device(C.int(rpcPort), C.int(httpPort))
+	var devices string
+	devices = C.GoString( C.get_all_device(C.int(rpcPort), C.int(httpPort)))
+	device := strings.Split(devices, ";")
 
 
 	s := grpc.NewServer(
 		// TODO: Replace with your own certificate!
 		grpc.Creds(credentials.NewServerTLSFromCert(&insecure.Cert)),
 	)
-	usersv1.RegisterDeviceServer(s, server.New())
+	usersv1.RegisterDeviceServer(s, server.New(device))
 
 	// Serve gRPC Server
 	log.Info("Serving gRPC on https://", addr)
