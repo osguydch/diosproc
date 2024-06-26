@@ -43,23 +43,6 @@ func request_Device_Open_0(ctx context.Context, marshaler runtime.Marshaler, cli
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["deviceUri"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
-	}
-
-	protoReq.DeviceUri, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
-	}
-
 	msg, err := client.Open(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
@@ -75,23 +58,6 @@ func local_request_Device_Open_0(ctx context.Context, marshaler runtime.Marshale
 	}
 	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["deviceUri"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
-	}
-
-	protoReq.DeviceUri, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
 	}
 
 	msg, err := server.Open(ctx, &protoReq)
@@ -111,23 +77,6 @@ func request_Device_Close_0(ctx context.Context, marshaler runtime.Marshaler, cl
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["deviceUri"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
-	}
-
-	protoReq.DeviceUri, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
-	}
-
 	msg, err := client.Close(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
@@ -145,30 +94,13 @@ func local_request_Device_Close_0(ctx context.Context, marshaler runtime.Marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["deviceUri"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
-	}
-
-	protoReq.DeviceUri, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
-	}
-
 	msg, err := server.Close(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_Device_Get_0 = &utilities.DoubleArray{Encoding: map[string]int{"deviceUri": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_Device_Get_0 = &utilities.DoubleArray{Encoding: map[string]int{"reqName": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
 )
 
 func request_Device_Get_0(ctx context.Context, marshaler runtime.Marshaler, client DeviceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -182,14 +114,14 @@ func request_Device_Get_0(ctx context.Context, marshaler runtime.Marshaler, clie
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -215,14 +147,14 @@ func local_request_Device_Get_0(ctx context.Context, marshaler runtime.Marshaler
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -233,6 +165,76 @@ func local_request_Device_Get_0(ctx context.Context, marshaler runtime.Marshaler
 	}
 
 	msg, err := server.Get(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+var (
+	filter_Device_Set_0 = &utilities.DoubleArray{Encoding: map[string]int{"reqName": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+)
+
+func request_Device_Set_0(ctx context.Context, marshaler runtime.Marshaler, client DeviceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DoRequest
+	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["reqName"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
+	}
+
+	protoReq.ReqName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Device_Set_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.Set(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_Device_Set_0(ctx context.Context, marshaler runtime.Marshaler, server DeviceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DoRequest
+	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["reqName"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
+	}
+
+	protoReq.ReqName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Device_Set_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.Set(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -256,14 +258,14 @@ func request_Device_Update_0(ctx context.Context, marshaler runtime.Marshaler, c
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	msg, err := client.Update(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -290,14 +292,14 @@ func local_request_Device_Update_0(ctx context.Context, marshaler runtime.Marsha
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	msg, err := server.Update(ctx, &protoReq)
@@ -324,14 +326,14 @@ func request_Device_Add_0(ctx context.Context, marshaler runtime.Marshaler, clie
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	msg, err := client.Add(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -358,14 +360,14 @@ func local_request_Device_Add_0(ctx context.Context, marshaler runtime.Marshaler
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	msg, err := server.Add(ctx, &protoReq)
@@ -374,7 +376,7 @@ func local_request_Device_Add_0(ctx context.Context, marshaler runtime.Marshaler
 }
 
 var (
-	filter_Device_Del_0 = &utilities.DoubleArray{Encoding: map[string]int{"deviceUri": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_Device_Del_0 = &utilities.DoubleArray{Encoding: map[string]int{"reqName": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
 )
 
 func request_Device_Del_0(ctx context.Context, marshaler runtime.Marshaler, client DeviceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -388,14 +390,14 @@ func request_Device_Del_0(ctx context.Context, marshaler runtime.Marshaler, clie
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -421,14 +423,14 @@ func local_request_Device_Del_0(ctx context.Context, marshaler runtime.Marshaler
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -462,14 +464,14 @@ func request_Device_Action_0(ctx context.Context, marshaler runtime.Marshaler, c
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	msg, err := client.Action(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -496,14 +498,14 @@ func local_request_Device_Action_0(ctx context.Context, marshaler runtime.Marsha
 		_   = err
 	)
 
-	val, ok = pathParams["deviceUri"]
+	val, ok = pathParams["reqName"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reqName")
 	}
 
-	protoReq.DeviceUri, err = runtime.String(val)
+	protoReq.ReqName, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reqName", err)
 	}
 
 	msg, err := server.Action(ctx, &protoReq)
@@ -523,23 +525,6 @@ func request_Device_Message_0(ctx context.Context, marshaler runtime.Marshaler, 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["deviceUri"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
-	}
-
-	protoReq.DeviceUri, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
-	}
-
 	msg, err := client.Message(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
@@ -555,23 +540,6 @@ func local_request_Device_Message_0(ctx context.Context, marshaler runtime.Marsh
 	}
 	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["deviceUri"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deviceUri")
-	}
-
-	protoReq.DeviceUri, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deviceUri", err)
 	}
 
 	msg, err := server.Message(ctx, &protoReq)
@@ -593,7 +561,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Open", runtime.WithHTTPPathPattern("/v1/Device/Open/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Open", runtime.WithHTTPPathPattern("/api/v1/Device/Open"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -618,7 +586,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Close", runtime.WithHTTPPathPattern("/v1/Device/Close/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Close", runtime.WithHTTPPathPattern("/api/v1/Device/Close"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -643,7 +611,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Get", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Get", runtime.WithHTTPPathPattern("/api/v1/Device/Get/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -660,7 +628,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 
 	})
 
-	mux.Handle("PUT", pattern_Device_Update_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_Device_Set_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -668,7 +636,32 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Update", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Set", runtime.WithHTTPPathPattern("/api/v1/Device/Set/{reqName}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Device_Set_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Device_Set_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_Device_Update_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Update", runtime.WithHTTPPathPattern("/api/v1/Device/Update/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -693,7 +686,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Add", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Add", runtime.WithHTTPPathPattern("/api/v1/Device/Add/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -718,7 +711,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Del", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Del", runtime.WithHTTPPathPattern("/api/v1/Device/Del/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -743,7 +736,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Action", runtime.WithHTTPPathPattern("/v1/Device/Action/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Action", runtime.WithHTTPPathPattern("/api/v1/Device/Action/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -768,7 +761,7 @@ func RegisterDeviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Message", runtime.WithHTTPPathPattern("/v1/Device/Message/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/Device.V3.Device/Message", runtime.WithHTTPPathPattern("/api/v1/Device/Message"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -832,7 +825,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Open", runtime.WithHTTPPathPattern("/v1/Device/Open/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Open", runtime.WithHTTPPathPattern("/api/v1/Device/Open"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -854,7 +847,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Close", runtime.WithHTTPPathPattern("/v1/Device/Close/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Close", runtime.WithHTTPPathPattern("/api/v1/Device/Close"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -876,7 +869,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Get", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Get", runtime.WithHTTPPathPattern("/api/v1/Device/Get/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -892,13 +885,35 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 
 	})
 
-	mux.Handle("PUT", pattern_Device_Update_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_Device_Set_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Update", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Set", runtime.WithHTTPPathPattern("/api/v1/Device/Set/{reqName}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Device_Set_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Device_Set_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_Device_Update_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Update", runtime.WithHTTPPathPattern("/api/v1/Device/Update/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -920,7 +935,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Add", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Add", runtime.WithHTTPPathPattern("/api/v1/Device/Add/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -942,7 +957,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Del", runtime.WithHTTPPathPattern("/v1/Device/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Del", runtime.WithHTTPPathPattern("/api/v1/Device/Del/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -964,7 +979,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Action", runtime.WithHTTPPathPattern("/v1/Device/Action/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Action", runtime.WithHTTPPathPattern("/api/v1/Device/Action/{reqName}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -986,7 +1001,7 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Message", runtime.WithHTTPPathPattern("/v1/Device/Message/{deviceUri}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/Device.V3.Device/Message", runtime.WithHTTPPathPattern("/api/v1/Device/Message"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1006,21 +1021,23 @@ func RegisterDeviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
-	pattern_Device_Open_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "Device", "Open", "deviceUri"}, ""))
+	pattern_Device_Open_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "Device", "Open"}, ""))
 
-	pattern_Device_Close_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "Device", "Close", "deviceUri"}, ""))
+	pattern_Device_Close_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "Device", "Close"}, ""))
 
-	pattern_Device_Get_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "Device", "deviceUri"}, ""))
+	pattern_Device_Get_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "Device", "Get", "reqName"}, ""))
 
-	pattern_Device_Update_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "Device", "deviceUri"}, ""))
+	pattern_Device_Set_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "Device", "Set", "reqName"}, ""))
 
-	pattern_Device_Add_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "Device", "deviceUri"}, ""))
+	pattern_Device_Update_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "Device", "Update", "reqName"}, ""))
 
-	pattern_Device_Del_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "Device", "deviceUri"}, ""))
+	pattern_Device_Add_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "Device", "Add", "reqName"}, ""))
 
-	pattern_Device_Action_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "Device", "Action", "deviceUri"}, ""))
+	pattern_Device_Del_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "Device", "Del", "reqName"}, ""))
 
-	pattern_Device_Message_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "Device", "Message", "deviceUri"}, ""))
+	pattern_Device_Action_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "Device", "Action", "reqName"}, ""))
+
+	pattern_Device_Message_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "Device", "Message"}, ""))
 )
 
 var (
@@ -1029,6 +1046,8 @@ var (
 	forward_Device_Close_0 = runtime.ForwardResponseMessage
 
 	forward_Device_Get_0 = runtime.ForwardResponseMessage
+
+	forward_Device_Set_0 = runtime.ForwardResponseMessage
 
 	forward_Device_Update_0 = runtime.ForwardResponseMessage
 

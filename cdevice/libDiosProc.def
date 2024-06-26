@@ -7,9 +7,10 @@ get_all_device
 open_device
 close_device
 device_get
+device_set
 device_update
 device_add
 device_del
 device_action
-device_action
+device_message
 free_struct

@@ -19,7 +19,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/Device/Action/{deviceUri}": {
+    "/api/v1/Device/Action/{reqName}": {
       "post": {
         "summary": "Execuate Action for Deivce",
         "description": "Execuate Action for Deivce at Platform .",
@@ -40,7 +40,7 @@
         },
         "parameters": [
           {
-            "name": "deviceUri",
+            "name": "reqName",
             "in": "path",
             "required": true,
             "type": "string"
@@ -52,10 +52,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "typeName": {
-                  "type": "string"
-                },
-                "reqName": {
+                "deviceUri": {
                   "type": "string"
                 },
                 "reqParam": {
@@ -65,9 +62,6 @@
                   "type": "string"
                 },
                 "reqClientID": {
-                  "type": "string"
-                },
-                "reqTimeStamp": {
                   "type": "string"
                 }
               }
@@ -79,291 +73,7 @@
         ]
       }
     },
-    "/v1/Device/Close/{deviceUri}": {
-      "post": {
-        "summary": "Close Opened Deivce",
-        "description": "Close Device from Platform.",
-        "operationId": "Device_Close",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/V3CloseReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "deviceUri",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "deviceGroup": {
-                  "type": "string"
-                }
-              },
-              "title": "simple message"
-            }
-          }
-        ],
-        "tags": [
-          "Device"
-        ]
-      }
-    },
-    "/v1/Device/Message/{deviceUri}": {
-      "post": {
-        "summary": "Send Message to Deivce",
-        "description": "Send Message to Deivce at Platform ",
-        "operationId": "Device_Message",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/V3DoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "deviceUri",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "typeName": {
-                  "type": "string"
-                },
-                "reqName": {
-                  "type": "string"
-                },
-                "reqParam": {
-                  "type": "string"
-                },
-                "reqTransaction": {
-                  "type": "string"
-                },
-                "reqClientID": {
-                  "type": "string"
-                },
-                "reqTimeStamp": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "Device"
-        ]
-      }
-    },
-    "/v1/Device/Open/{deviceUri}": {
-      "post": {
-        "summary": "Open a Deivce",
-        "description": "Open Device from Platform.",
-        "operationId": "Device_Open",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/V3OpenReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "deviceUri",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "deviceGroup": {
-                  "type": "string"
-                }
-              },
-              "title": "simple message"
-            }
-          }
-        ],
-        "tags": [
-          "Device"
-        ]
-      }
-    },
-    "/v1/Device/{deviceUri}": {
-      "get": {
-        "summary": "Get Properties Value from Deivce",
-        "description": "Get Properties Value from Deivce Platform.",
-        "operationId": "Device_Get",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/V3DoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "deviceUri",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "typeName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqParam",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqTransaction",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqClientID",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqTimeStamp",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Device"
-        ]
-      },
-      "delete": {
-        "summary": "Delete Properties Value for Deivce",
-        "description": "Delete Properties Value for Deivce at Platform if Property canbe deleted.",
-        "operationId": "Device_Del",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/V3DoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "deviceUri",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "typeName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqName",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqParam",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqTransaction",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqClientID",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "reqTimeStamp",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Device"
-        ]
-      },
+    "/api/v1/Device/Add/{reqName}": {
       "post": {
         "summary": "Add Properties Value for Deivce",
         "description": "Add Properties Value for Deivce at Platform if Property canbe added.",
@@ -384,7 +94,7 @@
         },
         "parameters": [
           {
-            "name": "deviceUri",
+            "name": "reqName",
             "in": "path",
             "required": true,
             "type": "string"
@@ -396,10 +106,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "typeName": {
-                  "type": "string"
-                },
-                "reqName": {
+                "deviceUri": {
                   "type": "string"
                 },
                 "reqParam": {
@@ -410,9 +117,6 @@
                 },
                 "reqClientID": {
                   "type": "string"
-                },
-                "reqTimeStamp": {
-                  "type": "string"
                 }
               }
             }
@@ -421,10 +125,282 @@
         "tags": [
           "Device"
         ]
-      },
+      }
+    },
+    "/api/v1/Device/Close": {
+      "post": {
+        "summary": "Close Opened Deivce",
+        "description": "Close Device from Platform.",
+        "operationId": "Device_Close",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/V3CloseReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/V3OpenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/v1/Device/Del/{reqName}": {
+      "delete": {
+        "summary": "Delete Properties Value for Deivce",
+        "description": "Delete Properties Value for Deivce at Platform if Property canbe deleted.",
+        "operationId": "Device_Del",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/V3DoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "reqName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceUri",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqParam",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqTransaction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqClientID",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/v1/Device/Get/{reqName}": {
+      "get": {
+        "summary": "Get Properties Value from Deivce",
+        "description": "Get Properties Value from Deivce Platform.",
+        "operationId": "Device_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/V3DoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "reqName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceUri",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqParam",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqTransaction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqClientID",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/v1/Device/Message": {
+      "post": {
+        "summary": "Send Message to Deivce",
+        "description": "Send Message to Deivce at Platform ",
+        "operationId": "Device_Message",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/V3DoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/V3DoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/v1/Device/Open": {
+      "post": {
+        "summary": "Open a Deivce",
+        "description": "Open Device from Platform.",
+        "operationId": "Device_Open",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/V3OpenReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/V3OpenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/v1/Device/Set/{reqName}": {
       "put": {
-        "summary": "Update(Set) Properties Value for Deivce",
-        "description": "Update(Set) Properties Value for Deivce at Platform.",
+        "summary": "Set Properties Value from Deivce",
+        "description": "Set Properties Value from Deivce Platform.",
+        "operationId": "Device_Set",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/V3DoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "reqName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceUri",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqParam",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqTransaction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reqClientID",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/v1/Device/Update/{reqName}": {
+      "post": {
+        "summary": "Update Properties Value for Deivce, effort immediately",
+        "description": "Update Properties Value for Deivce at Platform.",
         "operationId": "Device_Update",
         "responses": {
           "200": {
@@ -442,7 +418,7 @@
         },
         "parameters": [
           {
-            "name": "deviceUri",
+            "name": "reqName",
             "in": "path",
             "required": true,
             "type": "string"
@@ -454,10 +430,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "typeName": {
-                  "type": "string"
-                },
-                "reqName": {
+                "deviceUri": {
                   "type": "string"
                 },
                 "reqParam": {
@@ -467,9 +440,6 @@
                   "type": "string"
                 },
                 "reqClientID": {
-                  "type": "string"
-                },
-                "reqTimeStamp": {
                   "type": "string"
                 }
               }
@@ -494,19 +464,16 @@
         }
       }
     },
-    "V3DoResponse": {
+    "V3DoRequest": {
       "type": "object",
       "properties": {
         "deviceUri": {
           "type": "string"
         },
-        "typeName": {
-          "type": "string"
-        },
         "reqName": {
           "type": "string"
         },
-        "RespParam": {
+        "reqParam": {
           "type": "string"
         },
         "reqTransaction": {
@@ -514,8 +481,25 @@
         },
         "reqClientID": {
           "type": "string"
+        }
+      }
+    },
+    "V3DoResponse": {
+      "type": "object",
+      "properties": {
+        "deviceUri": {
+          "type": "string"
         },
-        "RespTimeStamp": {
+        "retCode": {
+          "type": "string"
+        },
+        "reqName": {
+          "type": "string"
+        },
+        "respResult": {
+          "type": "string"
+        },
+        "reqTransaction": {
           "type": "string"
         },
         "retContext": {
@@ -536,6 +520,18 @@
           "type": "string"
         }
       }
+    },
+    "V3OpenRequest": {
+      "type": "object",
+      "properties": {
+        "deviceUri": {
+          "type": "string"
+        },
+        "deviceGroup": {
+          "type": "string"
+        }
+      },
+      "title": "simple message"
     },
     "protobufAny": {
       "type": "object",

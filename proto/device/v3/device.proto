@@ -39,23 +39,19 @@ message CloseReply {
 
 message DoRequest{
   string deviceUri = 1;
-  string typeName = 2;
-  string reqName = 3;
-  string reqParam = 4;
-  string reqTransaction = 5;
-  string reqClientID = 6;
-  string reqTimeStamp = 7;
+  string reqName = 2;
+  string reqParam = 3;
+  string reqTransaction = 4;
+  string reqClientID = 5;
 }
 
 message DoResponse{
   string deviceUri = 1;
-  string typeName = 2;
+  string retCode = 2;
   string reqName = 3;
-  string RespParam = 4;
+  string respResult = 4;
   string reqTransaction = 5;
-  string reqClientID = 6;
-  string RespTimeStamp = 7;
-  string retContext = 8;
+  string retContext = 6;
 }
 
 // a gRPC service
@@ -66,7 +62,7 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Open" call this rpc method over this service
-      post: "/v1/Device/Open/{deviceUri}"
+      post: "/api/v1/Device/Open"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -80,7 +76,7 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      post: "/v1/Device/Close/{deviceUri}"
+      post: "/api/v1/Device/Close"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -94,11 +90,25 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      get: "/v1/Device/{deviceUri}"
+      get: "/api/v1/Device/Get/{reqName}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary: "Get Properties Value from Deivce"
       description: "Get Properties Value from Deivce Platform."
+      tags: "Device"
+    };
+  };
+
+  rpc Set (DoRequest) returns (DoResponse) {
+  // option type is http
+    option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
+      put: "/api/v1/Device/Set/{reqName}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Set Properties Value from Deivce"
+      description: "Set Properties Value from Deivce Platform."
       tags: "Device"
     };
   };
@@ -108,21 +118,22 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      put: "/v1/Device/{deviceUri}"
+      post: "/api/v1/Device/Update/{reqName}"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "Update(Set) Properties Value for Deivce"
-      description: "Update(Set) Properties Value for Deivce at Platform."
+      summary: "Update Properties Value for Deivce, effort immediately"
+      description: "Update Properties Value for Deivce at Platform."
       tags: "Device"
     };
   };
+
   rpc Add (DoRequest) returns (DoResponse) {
   // option type is http
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      post: "/v1/Device/{deviceUri}"
+      post: "/api/v1/Device/Add/{reqName}"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -136,7 +147,7 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      delete: "/v1/Device/{deviceUri}"
+      delete: "/api/v1/Device/Del/{reqName}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary: "Delete Properties Value for Deivce"
@@ -149,7 +160,7 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      post: "/v1/Device/Action/{deviceUri}"
+      post: "/api/v1/Device/Action/{reqName}"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -163,7 +174,7 @@ service Device {
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method
     // this line means when a HTTP post request comes with "/v1/Device/Close" call this rpc method over this service
-      post: "/v1/Device/Message/{deviceUri}"
+      post: "/api/v1/Device/Message"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {

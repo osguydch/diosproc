@@ -24,6 +24,7 @@ const (
 	Device_Open_FullMethodName    = "/Device.V3.Device/Open"
 	Device_Close_FullMethodName   = "/Device.V3.Device/Close"
 	Device_Get_FullMethodName     = "/Device.V3.Device/Get"
+	Device_Set_FullMethodName     = "/Device.V3.Device/Set"
 	Device_Update_FullMethodName  = "/Device.V3.Device/Update"
 	Device_Add_FullMethodName     = "/Device.V3.Device/Add"
 	Device_Del_FullMethodName     = "/Device.V3.Device/Del"
@@ -39,6 +40,7 @@ type DeviceClient interface {
 	Open(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*OpenReply, error)
 	Close(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*CloseReply, error)
 	Get(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
+	Set(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
 	Update(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
 	Add(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
 	Del(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
@@ -75,6 +77,15 @@ func (c *deviceClient) Close(ctx context.Context, in *OpenRequest, opts ...grpc.
 func (c *deviceClient) Get(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error) {
 	out := new(DoResponse)
 	err := c.cc.Invoke(ctx, Device_Get_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deviceClient) Set(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error) {
+	out := new(DoResponse)
+	err := c.cc.Invoke(ctx, Device_Set_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,6 +145,7 @@ type DeviceServer interface {
 	Open(context.Context, *OpenRequest) (*OpenReply, error)
 	Close(context.Context, *OpenRequest) (*CloseReply, error)
 	Get(context.Context, *DoRequest) (*DoResponse, error)
+	Set(context.Context, *DoRequest) (*DoResponse, error)
 	Update(context.Context, *DoRequest) (*DoResponse, error)
 	Add(context.Context, *DoRequest) (*DoResponse, error)
 	Del(context.Context, *DoRequest) (*DoResponse, error)
@@ -153,6 +165,9 @@ func (UnimplementedDeviceServer) Close(context.Context, *OpenRequest) (*CloseRep
 }
 func (UnimplementedDeviceServer) Get(context.Context, *DoRequest) (*DoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedDeviceServer) Set(context.Context, *DoRequest) (*DoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Set not implemented")
 }
 func (UnimplementedDeviceServer) Update(context.Context, *DoRequest) (*DoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
@@ -231,6 +246,24 @@ func _Device_Get_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DeviceServer).Get(ctx, req.(*DoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Device_Set_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServer).Set(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Device_Set_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServer).Set(ctx, req.(*DoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -343,6 +376,10 @@ var Device_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Get",
 			Handler:    _Device_Get_Handler,
+		},
+		{
+			MethodName: "Set",
+			Handler:    _Device_Set_Handler,
 		},
 		{
 			MethodName: "Update",
