@@ -32,11 +32,6 @@ message OpenReply {
   string retContext = 3;
 }
 
-message CloseReply {
-  string message = 1;
-  string retCode = 2;
-}
-
 message DoRequest{
   string deviceUri = 1;
   string reqName = 2;
@@ -71,7 +66,7 @@ service Device {
       tags: "Device"
     };
   };
-  rpc Close (OpenRequest) returns (CloseReply) {
+  rpc Close (OpenRequest) returns (OpenReply) {
   // option type is http
     option (google.api.http) = {
     // this is url, for RESTfull/JSON api and method

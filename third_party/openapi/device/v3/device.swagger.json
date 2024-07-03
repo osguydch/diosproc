@@ -136,7 +136,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/V3CloseReply"
+              "$ref": "#/definitions/V3OpenReply"
             }
           },
           "default": {
@@ -453,17 +453,6 @@
     }
   },
   "definitions": {
-    "V3CloseReply": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "retCode": {
-          "type": "string"
-        }
-      }
-    },
     "V3DoRequest": {
       "type": "object",
       "properties": {

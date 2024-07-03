@@ -38,7 +38,7 @@ const (
 type DeviceClient interface {
 	// Open is a rpc call and a option is defined for it
 	Open(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*OpenReply, error)
-	Close(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*CloseReply, error)
+	Close(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*OpenReply, error)
 	Get(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
 	Set(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
 	Update(ctx context.Context, in *DoRequest, opts ...grpc.CallOption) (*DoResponse, error)
@@ -65,8 +65,8 @@ func (c *deviceClient) Open(ctx context.Context, in *OpenRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *deviceClient) Close(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*CloseReply, error) {
-	out := new(CloseReply)
+func (c *deviceClient) Close(ctx context.Context, in *OpenRequest, opts ...grpc.CallOption) (*OpenReply, error) {
+	out := new(OpenReply)
 	err := c.cc.Invoke(ctx, Device_Close_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -143,7 +143,7 @@ func (c *deviceClient) Message(ctx context.Context, in *DoRequest, opts ...grpc.
 type DeviceServer interface {
 	// Open is a rpc call and a option is defined for it
 	Open(context.Context, *OpenRequest) (*OpenReply, error)
-	Close(context.Context, *OpenRequest) (*CloseReply, error)
+	Close(context.Context, *OpenRequest) (*OpenReply, error)
 	Get(context.Context, *DoRequest) (*DoResponse, error)
 	Set(context.Context, *DoRequest) (*DoResponse, error)
 	Update(context.Context, *DoRequest) (*DoResponse, error)
@@ -160,7 +160,7 @@ type UnimplementedDeviceServer struct {
 func (UnimplementedDeviceServer) Open(context.Context, *OpenRequest) (*OpenReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Open not implemented")
 }
-func (UnimplementedDeviceServer) Close(context.Context, *OpenRequest) (*CloseReply, error) {
+func (UnimplementedDeviceServer) Close(context.Context, *OpenRequest) (*OpenReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Close not implemented")
 }
 func (UnimplementedDeviceServer) Get(context.Context, *DoRequest) (*DoResponse, error) {

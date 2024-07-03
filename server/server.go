@@ -5,17 +5,10 @@ package server
 
 struct OpenReply {
 		char* message;
-		char* retCode;
 		char* context;
 	};
 
-	struct CloseReply {
-		char* message;
-		char* retCode;
-	};
-
 	struct DoResponse {
-		char* retCode;
 		char* reqName;
 		char* RespResult;
 		char* retContext;
@@ -96,13 +89,20 @@ func (g *DeviceServerImpl) Open(ctx context.Context, request *gen.OpenRequest) (
 
     idx := g.devs[request.DeviceUri]
 
+    // if idx < 0 {
+    //     return &gen.OpenReply{
+    //         Message: "enum all devices ok",
+    //         RetCode : "2",
+    //         RetContext : string(json.Marshal(g.devs)),
+    //     },nil
+    // }
+
     var openReply  unsafe.Pointer
     ret := C.open_device(C.int(idx), C.CString(request.DeviceUri), C.CString(request.DeviceGroup), &openReply)
 
     if ret != 2 {
         return &gen.OpenReply{
             Message: fmt.Sprintf("grpc error for open %s",request.DeviceUri),
-            RetCode : fmt.Sprintf("%d",ret),
             RetContext : "Open Call Error",
         },nil
     }
@@ -133,10 +133,46 @@ func (g *DeviceServerImpl) Open(ctx context.Context, request *gen.OpenRequest) (
     },nil
 }
 
-func (g *DeviceServerImpl) Close( ctx context.Context, request *gen.OpenRequest) (*gen.CloseReply, error) {
-    return &gen.CloseReply{
-        Message: fmt.Sprintf("closeed %s",request.DeviceUri),
-        RetCode: fmt.Sprintf("%d", 2),
+func (g *DeviceServerImpl) Close( ctx context.Context, request *gen.OpenRequest) (*gen.OpenReply, error) {
+    g.mu.Lock()
+	defer g.mu.Unlock()
+
+    idx := g.devs[request.DeviceUri]
+
+
+    var openReply  unsafe.Pointer
+    ret := C.close_device(C.int(idx), C.CString(request.DeviceUri), C.CString(request.DeviceGroup), &openReply)
+
+    if ret != 2 {
+        return &gen.OpenReply{
+            Message: fmt.Sprintf("grpc error for close %s",request.DeviceUri),
+            RetContext : "Close Call Error",
+        },nil
+    }
+    defer C.free_struct(openReply, C.int(3))
+
+    var reply *C.struct_OpenReply
+    reply = (*C.struct_OpenReply)(openReply)
+
+    var context string
+    context = C.GoString(reply.context)
+    //context = strings.ReplaceAll(context,"\\n","")
+    //context = strings.ReplaceAll(context,"\\\"","\"")
+    /* var result map[string]interface{}
+    err := json.Unmarshal([]byte(context), &result)
+    if err != nil {
+        log.Fatalf("Error occurred during unmarshaling. Error: %s", err.Error())
+    }
+
+    jsonBytes, err := json.Marshal(result)
+    if err != nil {
+        panic(err)
+    }
+    */
+    return &gen.OpenReply{
+        Message: C.GoString(reply.message),//fmt.Sprintf("hello %s",request.DeviceUri),
+        RetCode : fmt.Sprintf("%d",ret),
+        RetContext : context,
     },nil
 }
 
