@@ -57,6 +57,9 @@ func Run(dialAddr string, httpPort string) error {
 		return fmt.Errorf("failed to register gateway: %w", err)
 	}
 
+	staticFileServer := http.FileServer(http.Dir("./DriverDefine"))
+	//gwmux.Handle("GET", "/module/{file:*}", http.StripPrefix("/module/", staticFileServer))
+
 	oa := getOpenAPIHandler()
 
 	// port := os.Getenv("PORT")
@@ -68,7 +71,13 @@ func Run(dialAddr string, httpPort string) error {
 		Addr: gatewayAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if strings.HasPrefix(r.URL.Path, "/api") {
+				log.Info("Serving device apis", r.URL.Path)
 				gwmux.ServeHTTP(w, r)
+				return
+			}
+			if strings.HasPrefix(r.URL.Path, "/module") {
+				log.Info("Serving module definition", r.URL.Path)
+				http.StripPrefix("/module/", staticFileServer).ServeHTTP(w, r)
 				return
 			}
 			oa.ServeHTTP(w, r)
