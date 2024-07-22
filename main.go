@@ -92,11 +92,14 @@ func main() {
 	for i:=0; i<10 ;i++{
 
 		addr = fmt.Sprintf("0.0.0.0:%d", rpcPort)
+		fmt.Println("try listen " + addr)
+
 		lis, err = net.Listen("tcp", addr)
 		if err != nil {
-			log.Fatalln("Failed to listen:", err)
+			fmt.Println("Failed to listen: %s err %v",addr, err)
 			rpcPort += 2
 			httpPort += 2
+			fmt.Println("try another port %d" , rpcPort)
 		} else {
 			break
 		}

@@ -1,0 +1,83 @@
+// define syntax used in proto file
+syntax = "proto3";
+// options used by gRPC golang plugin(not related to gRPC gateway)
+//option go_package = "github.com/osguydch/diosproc";
+
+package Device.V3;
+
+// well know type by google, gRPC gateway uses HTTP annotation.
+
+//import "third_party/googleapis/google/api/annotations.proto";
+
+
+// simple message
+message OpenRequest {
+  string deviceUri = 1;
+  string deviceGroup = 2;
+}
+
+message OpenReply {
+  string message = 1;
+  string retCode = 2;
+  string retContext = 3;
+}
+
+message DoRequest{
+  string deviceUri = 1;
+  string reqName = 2;
+  string reqParam = 3;
+  string reqTransaction = 4;
+  string reqClientID = 5;
+}
+
+message DoResponse{
+  string deviceUri = 1;
+  string retCode = 2;
+  string reqName = 3;
+  string respResult = 4;
+  string reqTransaction = 5;
+  string retContext = 6;
+}
+
+// a gRPC service
+service Device {
+ // Open is a rpc call and a option is defined for it
+  rpc Open (OpenRequest) returns (OpenReply) {
+  // option type is http
+  };
+  rpc Close (OpenRequest) returns (OpenReply) {
+  // option type is http
+
+  };
+  rpc Get (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+
+  rpc Set (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+
+  rpc Update (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+
+  rpc Add (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+  rpc Del (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+  rpc Action (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+  rpc Message (DoRequest) returns (DoResponse) {
+  // option type is http
+
+  };
+}

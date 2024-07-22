@@ -1,5 +1,6 @@
 # DiosProcGo
-
+ protoc --proto_path=proto --cpp_out=build/gen --plugin=protoc-gen-grpc="G:\vcpkg\packages\grpc_x64-windows\tools\grpc\grpc_cpp_plugin.exe" --grpc_out=build/gen proto/device/v3/device.proto
+ 
 build protocbuf cmd:
   buf build
   buf generate

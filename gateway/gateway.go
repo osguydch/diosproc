@@ -13,6 +13,7 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/osguydch/diosproc/insecure"
+	"github.com/osguydch/diosproc/middleware"
 	usersv1 "github.com/osguydch/diosproc/proto/device/v3"
 	"github.com/osguydch/diosproc/third_party"
 	"google.golang.org/grpc"
@@ -67,12 +68,13 @@ func Run(dialAddr string, httpPort string) error {
 	// 	port = "11000"
 	// }
 	gatewayAddr := "0.0.0.0:" + httpPort
+	crxHandle := middleware.Cors(gwmux)
 	gwServer := &http.Server{
 		Addr: gatewayAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if strings.HasPrefix(r.URL.Path, "/api") {
 				log.Info("Serving device apis", r.URL.Path)
-				gwmux.ServeHTTP(w, r)
+				crxHandle.ServeHTTP(w, r)
 				return
 			}
 			if strings.HasPrefix(r.URL.Path, "/module") {
