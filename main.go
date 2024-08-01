@@ -43,6 +43,10 @@ type DiosProcConf struct {
 		Type 		string `json:"Type"`
 		RPCPort 	int `json:"RPCPort"`
 		HTTPPort 	int `json:"HTTPPort"`
+		ProcMap [] struct {
+			Name string `json:"Name"`
+			Index int `json:Index`
+		}
 	}
 }
 
@@ -74,13 +78,28 @@ func main() {
 		panic(err)
 	}
 
+	var vendor string
+	vendor = os.Args[1]
+	fmt.Println("Load driver :" + vendor)
+
 	rpcPort := 9000
 	httpPort := 9001
-	for i,v := range config.PortMap {
+	for _,v := range config.PortMap {
 		if v.Type == driverType {
 			//找到对应的类型
-			rpcPort = config.PortMap[i].RPCPort
-			httpPort = config.PortMap[i].HTTPPort
+			fmt.Println("Got Type PortMap config")
+			rpcPort = v.RPCPort
+			httpPort = v.HTTPPort
+			for _,w := range v.ProcMap {
+				if strings.HasPrefix(vendor, w.Name) {
+					//按厂商名匹配
+					fmt.Println("Got Vendor PortMap Index config %d" ,w.Index)
+					rpcPort += w.Index*2
+					httpPort += w.Index*2
+					break
+				}				
+			}
+			break
 		}
 	}
 

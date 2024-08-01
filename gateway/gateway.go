@@ -79,7 +79,7 @@ func Run(dialAddr string, httpPort string) error {
 			}
 			if strings.HasPrefix(r.URL.Path, "/module") {
 				log.Info("Serving module definition", r.URL.Path)
-				http.StripPrefix("/module/", staticFileServer).ServeHTTP(w, r)
+				middleware.Cors(http.StripPrefix("/module/", staticFileServer)).ServeHTTP(w, r)
 				return
 			}
 			oa.ServeHTTP(w, r)
