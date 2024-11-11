@@ -35,7 +35,7 @@ func getOpenAPIHandler() http.Handler {
 }
 
 // Run runs the gRPC-Gateway, dialling the provided address.
-func Run(dialAddr string, httpPort string) error {
+func Run(dialAddr string, httpPort string, supprtSSL string) error {
 	// Adds gRPC internal logs. This is quite verbose, so adjust as desired!
 	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
 	grpclog.SetLoggerV2(log)
@@ -46,6 +46,7 @@ func Run(dialAddr string, httpPort string) error {
 		context.Background(),
 		dialAddr,
 		grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(insecure.CertPool, "")),
+		//grpc.WithInsecure(),
 		grpc.WithBlock(),
 	)
 	if err != nil {
@@ -86,14 +87,18 @@ func Run(dialAddr string, httpPort string) error {
 		}),
 	}
 	// Empty parameters mean use the TLS Config specified with the server.
-	if strings.ToLower(os.Getenv("SERVE_HTTP")) == "true" {
+	//if strings.ToLower(os.Getenv("SERVE_HTTP")) == "true" {
+	if supprtSSL != "ON" {
 		log.Info("Serving gRPC-Gateway and OpenAPI Documentation on http://", gatewayAddr)
 		return fmt.Errorf("serving gRPC-Gateway server: %w", gwServer.ListenAndServe())
 	}
 
-	gwServer.TLSConfig = &tls.Config{
-		Certificates: []tls.Certificate{insecure.Cert},
-	}
+	//if supprtSSL == "ON" {
+		gwServer.TLSConfig = &tls.Config{
+			Certificates: []tls.Certificate{insecure.Cert},
+		}		
+	//}
+
 	log.Info("Serving gRPC-Gateway and OpenAPI Documentation on https://", gatewayAddr)
 	return fmt.Errorf("serving gRPC-Gateway server: %w", gwServer.ListenAndServeTLS("", ""))
 }

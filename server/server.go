@@ -186,18 +186,20 @@ func (g *DeviceServerImpl) Get( ctx context.Context, request *gen.DoRequest) (*g
     var openReply  unsafe.Pointer
     ret := C.device_get(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), &openReply)
 
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Get Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
 
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
     
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,
@@ -220,18 +222,20 @@ func (g *DeviceServerImpl) Set( ctx context.Context, request *gen.DoRequest) (*g
     ret := C.device_set(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), 
     C.CString(request.ReqParam), &openReply)
 
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Set Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
 
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
     
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,
@@ -254,18 +258,19 @@ func (g *DeviceServerImpl) Update( ctx context.Context, request *gen.DoRequest) 
     ret := C.device_update(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), 
     C.CString(request.ReqParam), &openReply)
 
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Update Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
-
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
     
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,
@@ -287,19 +292,21 @@ func (g *DeviceServerImpl) Add( ctx context.Context, request *gen.DoRequest) (*g
     ret := C.device_add(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), 
     C.CString(request.ReqParam), &openReply)
 
+
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Add Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
 
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
-    
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,
         RetCode : fmt.Sprintf("%d",ret),
@@ -320,19 +327,21 @@ func (g *DeviceServerImpl) Del( ctx context.Context, request *gen.DoRequest) (*g
     ret := C.device_del(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), 
     C.CString(request.ReqParam), &openReply)
 
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Del Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
 
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
-    
+
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,
         RetCode : fmt.Sprintf("%d",ret),
@@ -353,18 +362,20 @@ func (g *DeviceServerImpl) Action( ctx context.Context, request *gen.DoRequest) 
     ret := C.device_action(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), 
     C.CString(request.ReqParam), &openReply)
 
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Action Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
 
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
     
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,
@@ -386,18 +397,20 @@ func (g *DeviceServerImpl) Message( ctx context.Context, request *gen.DoRequest)
     ret := C.device_message(C.int(idx), C.CString(request.DeviceUri), C.CString(request.ReqName), 
     C.CString(request.ReqParam), &openReply)
 
+    var reply *C.struct_DoResponse
+    reply = (*C.struct_DoResponse)(openReply)
+    
     if ret != 2 {
         return &gen.DoResponse{
             DeviceUri: request.DeviceUri,
             RetCode : fmt.Sprintf("%d",ret),
+            ReqName : request.ReqName,
+            RespResult : C.GoString(reply.RespResult),
             RetContext : "Message Call Error",
         },nil
     }
     defer C.free_struct(openReply, C.int(3))
 
-    var reply *C.struct_DoResponse
-    reply = (*C.struct_DoResponse)(openReply)
-    
     
     return &gen.DoResponse{
         DeviceUri: request.DeviceUri,

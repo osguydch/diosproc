@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"strings"
 	"encoding/json"
+	"strconv"
 	//"unsafe"
 
 	"github.com/osguydch/diosproc/gateway"
@@ -41,11 +42,11 @@ type DiosProcConf struct {
 	CertFilePath 	string `json:"CertFilePath"`
 	PortMap 		[] struct {
 		Type 		string `json:"Type"`
-		RPCPort 	int `json:"RPCPort"`
-		HTTPPort 	int `json:"HTTPPort"`
+		RPCPort 	string `json:"RPCPort"`
+		HTTPPort 	string `json:"HTTPPort"`
 		ProcMap [] struct {
 			Name string `json:"Name"`
-			Index int `json:Index`
+			Index string `json:Index`
 		}
 	}
 }
@@ -72,30 +73,37 @@ func main() {
 
 	}
 
+	//driverType : Detector_CareRay_1800RF
+	drivers := strings.Split(driverType, "_")
+
 	var config DiosProcConf
 	decoder := json.NewDecoder(file)
 	if err := decoder.Decode(&config); err != nil {
 		panic(err)
 	}
+	file.Close()
 
 	var vendor string
-	vendor = os.Args[1]
+	vendor = drivers[1] + "_" + drivers[2]
+
 	fmt.Println("Load driver :" + vendor)
 
 	rpcPort := 9000
 	httpPort := 9001
+	var wi int
 	for _,v := range config.PortMap {
-		if v.Type == driverType {
+		if v.Type == drivers[0] {
 			//找到对应的类型
-			fmt.Println("Got Type PortMap config")
-			rpcPort = v.RPCPort
-			httpPort = v.HTTPPort
+			fmt.Println("Got Type PortMap config %s",v.Type )
+			rpcPort,_ = strconv.Atoi(v.RPCPort)
+			httpPort,_ = strconv.Atoi(v.HTTPPort)
 			for _,w := range v.ProcMap {
 				if strings.HasPrefix(vendor, w.Name) {
 					//按厂商名匹配
-					fmt.Println("Got Vendor PortMap Index config %d" ,w.Index)
-					rpcPort += w.Index*2
-					httpPort += w.Index*2
+					fmt.Println("Got Vendor PortMap Index config %s" ,w.Index)
+					wi,_ = strconv.Atoi(w.Index)
+					rpcPort += wi*2
+					httpPort += wi*2
 					break
 				}				
 			}
@@ -141,6 +149,6 @@ func main() {
 		log.Fatal(s.Serve(lis))
 	}()
 
-	err = gateway.Run("dns:///" + addr, fmt.Sprintf("%d", httpPort))
+	err = gateway.Run("dns:///" + addr, fmt.Sprintf("%d", httpPort), config.SupportSSL)
 	log.Fatalln(err)
 }
