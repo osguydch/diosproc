@@ -73,7 +73,7 @@ func main() {
 
 	}
 
-	//driverType : Detector_CareRay_1800RF
+	//driverType : Detector_CareRay_1800RF_1234
 	drivers := strings.Split(driverType, "_")
 
 	var config DiosProcConf
@@ -84,7 +84,7 @@ func main() {
 	file.Close()
 
 	var vendor string
-	vendor = drivers[1] + "_" + drivers[2]
+	vendor = drivers[1] + "_" + drivers[2]+ "_" + drivers[3];
 
 	fmt.Println("Load driver :" + vendor)
 
@@ -118,7 +118,7 @@ func main() {
 	var lis net.Listener
 	for i:=0; i<10 ;i++{
 
-		addr = fmt.Sprintf("0.0.0.0:%d", rpcPort)
+		addr = fmt.Sprintf("localhost:%d", rpcPort)
 		fmt.Println("try listen " + addr)
 
 		lis, err = net.Listen("tcp", addr)
@@ -137,6 +137,7 @@ func main() {
 	device := strings.Split(devices, ";")
 
 
+	fmt.Println("new Server with " + addr)
 	s := grpc.NewServer(
 		// TODO: Replace with your own certificate!
 		grpc.Creds(credentials.NewServerTLSFromCert(&insecure.Cert)),
